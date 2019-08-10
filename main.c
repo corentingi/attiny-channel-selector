@@ -50,8 +50,12 @@ ISR(TIMER1_COMPA_vect)
             selectedChannel--;
     }
 
+    // Select channel on external module
+    // Selected channel is indicated using either OUTPUT LOW (0) and INPUT LOW (1)
+    // Ex: If 3rd channel is selected, selectedChannel == 0b011
+    // DDRB should be set to 0b?????100
     if (state != previousState)
-        PORTB = (PORTB & 0b11111000) | (selectedChannel & 0b00000111); // Set PORTB to i with a mask
+        DDRB = (DDRB & 0b11111000) | (~selectedChannel & 0b00000111); // Set last 3 bits using a mask
 
     // Save current state for future comparision
     previousState = state;
@@ -60,7 +64,7 @@ ISR(TIMER1_COMPA_vect)
 int main(void)
 {
     // initializations
-    DDRB = 0b00000111;   // enable PB0-PB2 as outputs
+    DDRB = 0b00000111;   // enable PB0-PB2 as outputs (default for channel 0 (1st channel))
     PORTB |= (1 << PB3); // enable pullup on pushbutton output hooked up to PB3
     PORTB |= (1 << PB4); // enable pullup on pushbutton output hooked up to PB4
     initTimer1();        // initialize timer and interrupt
