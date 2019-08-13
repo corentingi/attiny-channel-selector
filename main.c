@@ -34,17 +34,17 @@ ISR(TIMER1_COMPA_vect)
     // Debounced pin state
     uint8_t state = debounce(PINB);
 
-    // If PB3 was just released (rising edge with INPUT_PULLUP)
-    // PB3 increment selected channel
-    if ( (state & (1 << PB3)) && !(previousState & (1 << PB3)) )
+    // If PB4 was just released (rising edge with INPUT_PULLUP)
+    // PB4 increment selected channel
+    if ( (state & (1 << PB4)) && !(previousState & (1 << PB4)) )
     {
         if (selectedChannel < 7)
             selectedChannel++;
     }
 
-    // If PB4 was just released (rising edge with INPUT_PULLUP)
-    // PB4 decrement selected channel
-    if ( (state & (1 << PB4)) && !(previousState & (1 << PB4)) )
+    // If PB3 was just released (rising edge with INPUT_PULLUP)
+    // PB3 decrement selected channel
+    if ( (state & (1 << PB3)) && !(previousState & (1 << PB3)) )
     {
         if (selectedChannel > 0)
             selectedChannel--;
